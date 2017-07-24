@@ -1,0 +1,20 @@
+{
+    "name": "adityasetiono/php-functions",
+    "description": "Function helpers for PHP",
+    "type": "library",
+    "require": {
+        "php": "~7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aditya Setiono",
+            "email": "winged.zach@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/__bootstrap.php"
+        ]
+    }
+}

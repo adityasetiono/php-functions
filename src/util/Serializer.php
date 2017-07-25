@@ -11,7 +11,9 @@ function deserialize($object, ?array $options = null): ?array
         $attr = null;
         $n = empty($nestedOptions[$field]) ? null : $nestedOptions[$field]; // reset nestedOptions to null if empty
         $gs = $getter !== false ? explode('.', $getter) : false;
-        if (method_exists($object, $getter)) {
+        if ($getter === false) {
+            $attr = deserialize($object, $n);
+        } elseif (method_exists($object, $getter)) {
             $attr = $object->{$getter}(); // call the getter method
             $temp = [];
             if (is_object($attr)) { // if the result is an object, value needs to be deserialized again
@@ -30,8 +32,6 @@ function deserialize($object, ?array $options = null): ?array
                 }
                 $attr = $temp;
             }
-        } elseif ($getter === false) { // creating a custom object from the parents attributes
-            $attr = deserialize($object, $n);
         } elseif (count($gs) > 1) {
             $attr = $object;
             foreach ($gs as $g) {

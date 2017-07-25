@@ -10,7 +10,7 @@ function deserialize($object, ?array $options = null): ?array
     foreach ($fields as $field => $getter) { // loop through the field-getter key-value pair
         $attr = null;
         $n = empty($nestedOptions[$field]) ? null : $nestedOptions[$field]; // reset nestedOptions to null if empty
-        $gs = explode('.', $getter);
+        $gs = $getter !== false ? explode('.', $getter) : false;
         if (method_exists($object, $getter)) {
             $attr = $object->{$getter}(); // call the getter method
             $temp = [];

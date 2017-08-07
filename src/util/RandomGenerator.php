@@ -6,30 +6,35 @@ namespace adityasetiono\util;
 function generate_alphanumeric(int $length): string
 {
     $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    $pool = generate_pool($characters, $length);
+    $pool = str_repeat($characters, $length);
+
     return substr(str_shuffle($pool), 0, $length);
 }
 
 function generate_number(int $length): string
 {
     $characters = "0123456789";
-    $pool = generate_pool($characters, $length);
+    $pool = str_repeat($characters, $length);
+
     return substr(str_shuffle($pool), 0, $length);
 }
 
 function generate_string(int $length): string
 {
     $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYYZ~!@#$%^&*()_+-=";
-    $pool = generate_pool($characters, $length);
+    $pool = str_repeat($characters, $length);
+
     return substr(str_shuffle($pool), 0, $length);
 }
 
-function generate_pool(string $characters, int $length): string
+function generate_uuid(): string
 {
-    $pool = "";
-    for ($i = $length - 1; $i >= 0; $i--) {
-        $pool .= $characters;
-    }
-    return $pool;
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
 }
 

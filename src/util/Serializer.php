@@ -42,6 +42,7 @@ function deserialize($object, ?array $options = null): ?array
         }
         $arr[$field] = $attr;
     }
+
     return $arr;
 }
 
@@ -49,11 +50,12 @@ function serialize($params, $className, $object = null)
 {
     $object = is_null($object) ? new $className : $object;
     foreach ($params as $field => $value) {
-        $setter = 'set' . ucwords($field);
+        $setter = 'set'.ucwords($field);
         if (method_exists($object, $setter)) {
             $object->{$setter}($value);
         }
     }
+
     return $object;
 }
 
@@ -66,7 +68,7 @@ function extractFields($object, $fields): ?array
             // initialize the getters from the field name
             if (!is_string($field)) { // if the attribute needs to be deserialized again
                 if (isset($field['__field'])) {
-                    $getters[] = 'get' . ucwords($field['__field']);
+                    $getters[] = 'get'.ucwords($field['__field']);
                     unset($field['__field']);
                 } else { // else the object is a custom object which values derived from this parent object
                     $getters[] = false;
@@ -75,10 +77,10 @@ function extractFields($object, $fields): ?array
             } else { // else the attribute is just a primitive value from the getter method
                 $fs = explode('.', $field);
                 if (count($fields) <= 1) {
-                    $getters[] = 'get' . ucwords($field);
+                    $getters[] = 'get'.ucwords($field);
                 } else {
                     $fs = array_map(function ($f) {
-                        return 'get' . ucwords($f);
+                        return 'get'.ucwords($f);
                     }, $fs);
                     $getters[] = implode('.', $fs);
                 }
@@ -95,5 +97,6 @@ function extractFields($object, $fields): ?array
         }, $getters);
     }
     $fields = array_combine($labels, $getters);
+
     return [$fields, $nestedOptions];
 }

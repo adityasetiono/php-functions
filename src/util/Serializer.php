@@ -52,7 +52,12 @@ function serialize($params, $className, $object = null)
     foreach ($params as $field => $value) {
         $setter = 'set'.ucwords($field);
         if (method_exists($object, $setter)) {
-            $object->{$setter}($value);
+            $rp = (new \ReflectionMethod($className, $setter))->getParameters()[0];
+            if (is_null($rp->getClass())) {
+                $object->{$setter}($value);
+            } else {
+                $object->{$setter}(serialize($value, $rp->getClass()->name));
+            }
         }
     }
 

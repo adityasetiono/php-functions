@@ -55,7 +55,7 @@ function serialize($params, $className, $object = null)
             $rp = (new \ReflectionMethod($className, $setter))->getParameters()[0];
             if (is_null($rp->getClass())) {
                 $object->{$setter}($value);
-            } else {
+            } elseif (!is_scalar($value) && !is_null($value)) {
                 $object->{$setter}(serialize($value, $rp->getClass()->name));
             }
         }

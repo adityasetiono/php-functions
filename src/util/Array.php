@@ -12,3 +12,22 @@ function filter_params(array $options, array $params)
 {
     return array_intersect_key($params, array_flip($options));
 }
+
+function pluck(array $array, string $field): array
+{
+    $output = [];
+    foreach ($array as $v) {
+        if (is_object($v)) {
+            $getter = 'get'.ucwords($field);
+            if (method_exists($v, $getter)) {
+                $output[] = $v->$getter();
+            }
+        } elseif (is_array($v)) {
+            if (isset($v[$field])) {
+                $output[] = $v[$field];
+            }
+        }
+    }
+
+    return $output;
+}

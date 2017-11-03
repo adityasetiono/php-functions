@@ -1,4 +1,4 @@
-# php-functions
+# php-functions [![Build Status](https://travis-ci.org/adityasetiono/php-functions.svg?branch=master)](https://travis-ci.org/adityasetiono/php-functions)
 Function helpers for PHP
 
 # Installation

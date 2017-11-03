@@ -69,7 +69,7 @@ function serialize($params, $className, $object = null)
     return $object;
 }
 
-function extractFields($object, $fields): ?array
+function extractFields($object, $fields)
 {
     $getters = [];
     $nestedOptions = [];

@@ -49,6 +49,9 @@ function deserialize($object, ?array $options = null): ?array
 function serialize($params, $className, $object = null)
 {
     $object = is_null($object) ? new $className : $object;
+    if (!is_array($params)) {
+        return $object;
+    }
     foreach ($params as $field => $value) {
         $setter = 'set'.ucwords($field);
         if (method_exists($object, $setter)) {

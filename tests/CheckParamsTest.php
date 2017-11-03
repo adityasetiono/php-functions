@@ -5,7 +5,7 @@ use function adityasetiono\util\{
     check_params, filter_params, pluck
 };
 
-class ArrayTest extends \PHPUnit\Framework\TestCase
+class CheckParamsTest extends \PHPUnit\Framework\TestCase
 {
     /** @test */
     public function testEmpty()

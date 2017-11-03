@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace adityasetiono\util;
 
-function deserialize($object, $options = null): ?array
+function deserialize($object, $options = null)
 {
     list($fields, $nestedOptions) = extractFields($object, $options);
     $arr = [];

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace adityasetiono\util;
 
-function validate_phone_number(string $number, ?string $countryCode = '0')
+function validate_phone_number(string $number, $countryCode = '0')
 {
     if (!preg_match("/(^\\${countryCode})|(^\d)/", $number)) {
         return null;

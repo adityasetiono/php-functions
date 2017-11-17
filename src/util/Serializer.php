@@ -58,7 +58,7 @@ function serialize($params, $className, $object = null)
             $rp = (new \ReflectionMethod($className, $setter))->getParameters()[0];
             if (is_null($rp->getClass())) {
                 $object->{$setter}($value);
-            } elseif (is_object($value) && get_class($value) === $rp->getClass()->name) {
+            } elseif (is_object($value) && (get_class($value) === $rp->getClass()->name || get_class($value) === "Proxies\\__CG__\\".$rp->getClass()->name)) {
                 $object->{$setter}($value);
             } elseif (!is_scalar($value) && !is_null($value)) {
                 $object->{$setter}(serialize($value, $rp->getClass()->name));

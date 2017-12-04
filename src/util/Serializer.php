@@ -5,42 +5,36 @@ namespace adityasetiono\util;
 
 function deserialize($object, $options = null)
 {
-    list($fields, $nestedOptions) = extractFields($object, $options);
     $arr = [];
-    foreach ($fields as $field => $getter) { // loop through the field-getter key-value pair
-        $attr = null;
-        $n = empty($nestedOptions[$field]) ? null : $nestedOptions[$field]; // reset nestedOptions to null if empty
-        $gs = $getter !== false ? explode('.', $getter) : false;
-        if ($getter === false) {
-            $attr = deserialize($object, $n);
-        } elseif (method_exists($object, $getter)) {
-            $attr = $object->{$getter}(); // call the getter method
-            $temp = [];
-            if (is_object($attr)) { // if the result is an object, value needs to be deserialized again
-                if (method_exists($attr, 'toArray') && is_array($attr->toArray())) {
-                    foreach ($attr as $entity) {
-                        $temp[] = deserialize($entity, $n);
+    if (is_object($object)) {
+        list($fields, $nestedOptions) = extractFields($object, $options);
+        foreach ($fields as $field => $getter) { // loop through the field-getter key-value pair
+            $attr = null;
+            $n = empty($nestedOptions[$field]) ? null : $nestedOptions[$field]; // reset nestedOptions to null if empty
+            $gs = $getter !== false ? explode('.', $getter) : false;
+            if ($getter === false) {
+                $attr = deserialize($object, $n);
+            } elseif (method_exists($object, $getter)) {
+                $attr = $object->{$getter}(); // call the getter method
+                if (is_object($attr) || (is_array($attr) && isset($attr[0]) && is_object($attr[0]))) { // if the result is an object, value needs to be deserialized again
+                    $attr = deserialize($attr, $n);
+                }
+            } elseif (count($gs) > 1) {
+                $attr = $object;
+                foreach ($gs as $g) {
+                    if (method_exists($attr, $g)) {
+                        $attr = $attr->{$g}();
                     }
-                } else {
-                    $temp = deserialize($attr, $n);
                 }
-                $attr = $temp;
-            } elseif (is_array($attr) && isset($attr[0]) && is_object($attr[0])) {
-                // if the result is an array of object, loop through and deserialize
-                foreach ($attr as $entity) {
-                    $temp[] = deserialize($entity, $n);
-                }
-                $attr = $temp;
             }
-        } elseif (count($gs) > 1) {
-            $attr = $object;
-            foreach ($gs as $g) {
-                if (method_exists($attr, $g)) {
-                    $attr = $attr->{$g}();
-                }
+            $arr[$field] = $attr;
+        }
+    } else {
+        if (is_array($object)) {
+            foreach ($object as $key => $value) {
+                $arr[$key] = deserialize($value, $options);
             }
         }
-        $arr[$field] = $attr;
     }
 
     return $arr;

@@ -155,7 +155,6 @@ class SerializerTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected, serialize($input, Device::class));
     }
 
-
     /** @test */
     public function testEmptyInnerclass()
     {

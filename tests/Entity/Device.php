@@ -10,6 +10,7 @@ class Device
     protected $location;
     protected $manufacturer;
     protected $year;
+    protected $apps;
 
     public function getId(): string
     {
@@ -67,6 +68,21 @@ class Device
     public function setYear(int $year): Device
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * @return App[]|null|array
+     */
+    public function getApps()
+    {
+        return $this->apps;
+    }
+
+    public function setApps($apps): Device
+    {
+        $this->apps = $apps;
 
         return $this;
     }

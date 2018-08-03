@@ -1,5 +1,5 @@
 # php-functions [![Build Status](https://travis-ci.org/adityasetiono/php-functions.svg?branch=master)](https://travis-ci.org/adityasetiono/php-functions)
-A PHP library to serialize(deserialize) an array to an object or vice versa.
+A PHP library to serialize/deserialize an array to an object or vice versa.
 
 # Installation
 To install it with composer:

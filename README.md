@@ -1,5 +1,5 @@
 # php-functions [![Build Status](https://travis-ci.org/adityasetiono/php-functions.svg?branch=master)](https://travis-ci.org/adityasetiono/php-functions)
-Function helpers for PHP
+A PHP library to serialize/deserialize an array to an object or vice versa.
 
 # Installation
 To install it with composer:
@@ -234,7 +234,7 @@ Another example with custom fields. The second parameter accepts an associative 
 The deserializer expects the value to be exactly the same as camelCase of the `getter` without `get`.
 ```php
 $customArray = deserialize($user,[
-    'first_name' => 'firstName,
+    'first_name' => 'firstName',
     'surname' => 'lastName',
     'email' => 'email',
 ]);
